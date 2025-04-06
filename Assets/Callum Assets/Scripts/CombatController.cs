@@ -60,5 +60,13 @@ namespace CombatSystem
 
         #endregion
 
+        // EquipWeapon is called when walked over
+        public void EquipWeapon(Weapon weapon)
+        {
+            currentWeapon = weapon;
+            weapon.transform.parent = transform;
+            weapon.PickUp(); 
+
+        }
     }
 }
