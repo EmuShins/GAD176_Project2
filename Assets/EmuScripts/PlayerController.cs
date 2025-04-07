@@ -5,6 +5,7 @@ public class PlayerController : InputScript, IPlayerMovement
 {
   float maxSpeed;
   int moveSpeed;
+    int sprintSpeed;
   float moveMass;
   float moveDamp;
 
@@ -24,7 +25,7 @@ public class PlayerController : InputScript, IPlayerMovement
 
     void Update()
     {
-        GetKeyInputs(moveSpeed);
+        GetKeyInputs(moveSpeed, sprintSpeed);
 
         MoveCamera(playerCamera);
     }
@@ -33,6 +34,7 @@ public class PlayerController : InputScript, IPlayerMovement
     {
       maxSpeed=1;
       moveSpeed=5;
+        sprintSpeed = 10;
       moveMass=1;
       moveDamp=3;
       mouseSensitivity = 2f;
