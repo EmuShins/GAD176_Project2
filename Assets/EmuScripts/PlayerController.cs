@@ -1,3 +1,4 @@
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class PlayerController : InputScript, IPlayerMovement
@@ -7,9 +8,13 @@ public class PlayerController : InputScript, IPlayerMovement
   float moveMass;
   float moveDamp;
 
+   private float mouseSensitivity;
+   private float yRotation;
+   public GameObject playerCamera;
+
     void Start()
     {
-        MovementStatistics();
+        Initialization();
     }
 
     private void OnDrawGizmos()
@@ -19,15 +24,19 @@ public class PlayerController : InputScript, IPlayerMovement
 
     void Update()
     {
-      GetKeyInputs(moveSpeed);
+        GetKeyInputs(moveSpeed);
+
+        MoveCamera(playerCamera);
     }
 
-    public void MovementStatistics()
+    public void Initialization()
     {
       maxSpeed=1;
       moveSpeed=5;
       moveMass=1;
       moveDamp=3;
+      mouseSensitivity = 2f;
+      yRotation = 0f;
     }
 
     public void DebugLines()
@@ -36,5 +45,17 @@ public class PlayerController : InputScript, IPlayerMovement
       Debug.DrawRay(transform.position, -transform.forward, Color.red);
       Debug.DrawRay(transform.position, -transform.right, Color.blue);
       Debug.DrawRay(transform.position, transform.right, Color.blue);
+    }
+
+    public void MoveCamera(GameObject thisCamera)
+    {
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        yRotation -= mouseY;
+        yRotation = Mathf.Clamp(yRotation, -90f, 90f);
+        thisCamera.transform.localEulerAngles = Vector3.right * yRotation;
+        this.transform.Rotate(Vector3.up * mouseX);
+
     }
 }
