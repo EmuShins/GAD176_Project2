@@ -5,4 +5,5 @@ public class ControllerScriptable : ScriptableObject
 {
     public float mass;
     public float moveSpeed;
+    
 }

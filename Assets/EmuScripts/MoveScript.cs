@@ -13,7 +13,7 @@ public class MoveScript : StartupScript
     {
         Debug.Log("MoveTo has been reached.");
 
-        startPos.AddRelativeForce(moveDirection);
+        startPos.AddForce(moveDirection);
     }
 
      protected void FindPlayerRigid()
