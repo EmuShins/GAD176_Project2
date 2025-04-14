@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnemyTypeValues", menuName = "ScriptableObjects/EnemyTypeValues")]
+[CreateAssetMenu(fileName = "EnemyTypeValues", menuName = "Scriptable Objects/EnemyTypeValues")]
 public class EnemyTypeValues : ScriptableObject
 {
     public float movementSpeed = 10;

@@ -1,11 +1,14 @@
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
     public EnemyTypeValues enemyAI;
     private float movementSpeed;
-    LayerMask layerMask = LayerMask.GetMask("Wall", "Character");
+    public List<GameObject> pathNode = new List<GameObject>();
+    LayerMask layerMask;
+
+
     //On Validate, when the scriptable object is dragged onto the game object in the inspector this runs.
     private void OnValidate()
     {
@@ -18,7 +21,16 @@ public class EnemyAI : MonoBehaviour
     }
     void Start()
     {
-        LayerMask layerMask = LayerMask.GetMask("Wall", "Character");
+        layerMask = LayerMask.GetMask("Wall", "Character");
+        //if (pathingNodeNames != null)
+        {
+            foreach(GameObject go in pathNode)
+            {
+
+            }
+        }
+        
+
     }
 
     // Update is called once per frame
