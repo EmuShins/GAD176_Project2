@@ -30,16 +30,26 @@ namespace CombatSystem
         }
         #endregion
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, transform.forward * swingRange);
+        }
+
+
         #region Swinging + Throwing
         // Melee swing attack using raycasting to detect hits
         public override void Swing()
         {
+
             Vector3 origin = transform.position;
             Vector3 direction = transform.forward;
 
             // Raycast is used to detect enemy within swing range
             if (Physics.Raycast(origin, direction, out RaycastHit hit, swingRange))
             {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward));
+
                 if (hit.collider != null && hit.collider.CompareTag("Enemy"))
                 {
                     Debug.Log(weaponName + " hits enemy: " + hit.collider.name + " for " + attackPower + " damage.");
