@@ -7,6 +7,12 @@ namespace CombatSystem
     {
         [SerializeField] private GameObject[] weaponPrefabs; // Weapon prefabs list to spawn from
 
+        private void Start()
+        {
+            Instantiate(weaponPrefabs[0], this.gameObject.transform);
+
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))

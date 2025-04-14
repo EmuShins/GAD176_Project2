@@ -30,18 +30,16 @@ namespace CombatSystem
         }
         #endregion
 
+        #region Swinging + Throwing
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(transform.position, transform.forward * swingRange);
         }
 
-
-        #region Swinging + Throwing
         // Melee swing attack using raycasting to detect hits
         public override void Swing()
         {
-
             Vector3 origin = transform.position;
             Vector3 direction = transform.forward;
 
