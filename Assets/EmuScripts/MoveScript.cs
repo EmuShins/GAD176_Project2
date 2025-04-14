@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MoveScript : StartupScript
@@ -23,5 +24,22 @@ public class MoveScript : StartupScript
         {
             Debug.Log("uhoh, the player's rigidbody wasnt founnd.");
         }
+    }
+
+    protected void Jump(Rigidbody startPos, float jumpHeight)
+    {
+        startPos.AddForce(transform.up*jumpHeight);
+    }
+
+    protected void Crouch(Rigidbody playerPos, bool isCrouched)
+    {
+        if(isCrouched==true)
+        {
+            Debug.Log("Player is not crouched");
+            isCrouched = false;
+            return; ;
+        }
+        Debug.Log("player is crouched.");
+        isCrouched = true;
     }
 }   

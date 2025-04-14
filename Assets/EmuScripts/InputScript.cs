@@ -12,7 +12,7 @@ public class InputScript : MoveScript
         
     }
 
-    public void GetKeyInputs(int moveSpeed, int sprintSpeed)
+    public void GetKeyInputs(int moveSpeed, int sprintSpeed, float jumpHeight, bool isCrouched)
     {
         FindPlayerRigid();
         //WASD movement
@@ -57,10 +57,21 @@ public class InputScript : MoveScript
                 {
                     MoveTo(playerRigid, transform.right * sprintSpeed);
                 }
+            }
+            //Jump
+            if (Input.GetKey(KeyCode.Space))
+            {
+                if(Physics.Raycast(transform.position, Vector3.down, 1))
+                {
+                    Debug.Log("The player can jump");
+                    Jump(playerRigid, jumpHeight);
+                }
+            }
 
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                Crouch(playerRigid, isCrouched);
             }
         }
     }
-
-    
 }

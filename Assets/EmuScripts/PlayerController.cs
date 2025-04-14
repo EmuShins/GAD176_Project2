@@ -5,9 +5,11 @@ public class PlayerController : InputScript, IPlayerMovement
 {
   float maxSpeed;
   int moveSpeed;
-    int sprintSpeed;
+  int sprintSpeed;
+    float jumpHeight;
   float moveMass;
   float moveDamp;
+    bool isCrouched;
 
    private float mouseSensitivity;
    private float yRotation;
@@ -25,7 +27,7 @@ public class PlayerController : InputScript, IPlayerMovement
 
     void Update()
     {
-        GetKeyInputs(moveSpeed, sprintSpeed);
+        GetKeyInputs(moveSpeed, sprintSpeed, jumpHeight, isCrouched);
 
         MoveCamera(playerCamera);
     }
@@ -34,7 +36,8 @@ public class PlayerController : InputScript, IPlayerMovement
     {
       maxSpeed=1;
       moveSpeed=5;
-        sprintSpeed = 10;
+        sprintSpeed = 50;
+        jumpHeight = 100;
       moveMass=1;
       moveDamp=3;
       mouseSensitivity = 2f;
