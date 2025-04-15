@@ -1,39 +1,38 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MoveScript : BaseScript
+namespace GAD176.Emu.Player
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class MoveScript : BaseScript
     {
-
-    }
-
-
-    protected void MoveTo(Rigidbody startPos, Vector3 moveDirection)
-    {
-        Debug.Log("MoveTo has been reached.");
-
-        startPos.AddForce(moveDirection);
-    }
-
-     protected void FindPlayerRigid()
-    {
-        playerRigid=player.GetComponent<Rigidbody>();
-        if(playerRigid==null)
+        protected void MoveTo(Rigidbody startPos, Vector3 moveDirection)
         {
-            Debug.Log("uhoh, the player's rigidbody wasnt founnd.");
+            Debug.Log("MoveTo has been reached.");
+
+            startPos.AddForce(moveDirection);
         }
-    }
 
-    protected void Jump(Rigidbody startPos, float jumpHeight)
-    {
-        startPos.AddForce(transform.up*jumpHeight);
-    }
+        protected void FindPlayerRigid()
+        {
+            playerRigid = player.GetComponent<Rigidbody>();
+            if (playerRigid == null)
+            {
+                Debug.Log("uhoh, the player's rigidbody wasnt found.");
+            }
+        }
 
-    protected virtual void Crouch(Rigidbody startPos) 
-    {
-        Debug.Log("The player is now crouched.");
-    }
+        protected void Jump(Rigidbody startPos, float jumpHeight)
+        {
+            startPos.AddForce(transform.up * jumpHeight);
 
-}   
+            //Uneccesary code, Just a demonstration for LO's.
+            Debug.Log("Jumped " + (transform.up * jumpHeight).magnitude + " units. in the " + (transform.up * jumpHeight).normalized + " direction.");
+        }
+
+        protected virtual void Crouch(Rigidbody startPos)
+        {
+            Debug.Log("The player is now crouched.");
+        }
+
+    }
+}
