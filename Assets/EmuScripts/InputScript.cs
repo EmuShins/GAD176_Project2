@@ -1,18 +1,14 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class InputScript : MoveScript
 {
-    void Start()
-    {
-        FindPlayerRigid();
-    }
-
     void Update()
     {
         
     }
 
-    public void GetKeyInputs(int moveSpeed, int sprintSpeed, float jumpHeight, bool isCrouched)
+    public void GetKeyInputs(int moveSpeed, int sprintSpeed, float jumpHeight)
     {
         FindPlayerRigid();
         //WASD movement
@@ -67,11 +63,29 @@ public class InputScript : MoveScript
                     Jump(playerRigid, jumpHeight);
                 }
             }
-
-            if (Input.GetKey(KeyCode.LeftControl))
+            
+        }
+    }
+    public bool GetCrouchInput(bool isCrouched)
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if (isCrouched != true)
             {
-                Crouch(playerRigid, isCrouched);
+                base.Crouch(playerRigid);
+                isCrouched = true;
+            }
+            else
+            {
+                Crouch(playerRigid);
+                isCrouched = false;
             }
         }
+        return isCrouched;
+    }
+    protected override void Crouch(Rigidbody startPos)
+    {
+        Debug.Log("The player is now uncrouched.");
+
     }
 }

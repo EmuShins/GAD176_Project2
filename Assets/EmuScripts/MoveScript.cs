@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MoveScript : StartupScript
+public class MoveScript : BaseScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,7 +19,7 @@ public class MoveScript : StartupScript
 
      protected void FindPlayerRigid()
     {
-        playerRigid=FindFirstObjectByType<PlayerController>().GetComponentInParent<Rigidbody>();
+        playerRigid=player.GetComponent<Rigidbody>();
         if(playerRigid==null)
         {
             Debug.Log("uhoh, the player's rigidbody wasnt founnd.");
@@ -31,15 +31,9 @@ public class MoveScript : StartupScript
         startPos.AddForce(transform.up*jumpHeight);
     }
 
-    protected void Crouch(Rigidbody playerPos, bool isCrouched)
+    protected virtual void Crouch(Rigidbody startPos) 
     {
-        if(isCrouched==true)
-        {
-            Debug.Log("Player is not crouched");
-            isCrouched = false;
-            return; ;
-        }
-        Debug.Log("player is crouched.");
-        isCrouched = true;
+        Debug.Log("The player is now crouched.");
     }
+
 }   
