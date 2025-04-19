@@ -17,4 +17,4 @@ MonoBehaviour:
   attackPower: 100
   weight: 100
   swingRange: 2
-  throwForceMultiplier: 5
+  throwForceMultiplier: 0.1
