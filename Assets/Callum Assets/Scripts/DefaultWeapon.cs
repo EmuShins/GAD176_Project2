@@ -70,6 +70,9 @@ namespace CombatSystem
         // Throw weapon using physics using force in a specified direction
         public override void ThrowWeapon(Vector3 direction)
         {
+            Transform playerTransform = transform.parent; // Save player transform before detaching
+            transform.parent = null; // Clear parent (the player)
+
             // Ensure weapon has a Ridgidbody
             Rigidbody rb = GetComponent<Rigidbody>();
             if (rb == null)
@@ -78,19 +81,22 @@ namespace CombatSystem
 
             }
 
-            // Detach from parent (If attached to player)
-            transform.parent = null;
-
-            // Move to player position before throwing
-            transform.position = Camera.main.transform.position + direction * 1.0f;
-
             gameObject.SetActive(true);
 
-            rb.linearVelocity = Vector3.zero; // Reset existing velocity
-            rb.angularVelocity = Vector3.zero;
-            rb.AddForce(throwForceMultiplier * weight * direction.normalized, ForceMode.Impulse); // Apply force for throwing weapon
+            // Move weapon launch point in front of the player gameObject
+            float forwardOffset = 1.0f;
+            float upwardOffeset = 1.2f;
+            Vector3 spawnPos = playerTransform.position + playerTransform.forward * forwardOffset + Vector3.up * upwardOffeset;
+            transform.position = spawnPos;
 
-            Debug.Log(weaponName + " thrown with force " + throwForceMultiplier * weight + " in direction " + direction);
+            // Reset existing velocity
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            // Apply force for throwing weapon
+            rb.AddForce(throwForceMultiplier * weight * direction.normalized, ForceMode.Impulse);
+
+            Debug.Log(weaponName + " thrown from " + spawnPos + " in direction " + direction + " with force " + throwForceMultiplier * weight);
 
         }
         #endregion
