@@ -27,7 +27,7 @@ namespace CombatSystem
         }
 
         // Melee swing attack
-        public abstract void Swing();
+        public abstract void Swing(Transform transform);
 
         // Throw weapon
         public abstract void ThrowWeapon(Vector3 direction);

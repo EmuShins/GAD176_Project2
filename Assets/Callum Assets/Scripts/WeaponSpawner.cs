@@ -30,7 +30,7 @@ namespace CombatSystem
                         CombatController controller = other.GetComponent<CombatController>();
                         if (controller != null)
                         {
-                            controller.Equals(weapon);
+                            controller.EquipWeapon(weapon);
 
                         }
                         else

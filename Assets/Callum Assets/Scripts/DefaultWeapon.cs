@@ -38,10 +38,10 @@ namespace CombatSystem
         }
 
         // Melee swing attack using raycasting to detect hits
-        public override void Swing()
+        public override void Swing(Transform attacker)
         {
-            Vector3 origin = transform.position;
-            Vector3 direction = transform.forward;
+            Vector3 origin = attacker.position + attacker.forward;
+            Vector3 direction = attacker.forward;
 
             // Raycast is used to detect enemy within swing range
             if (Physics.Raycast(origin, direction, out RaycastHit hit, swingRange))
@@ -71,17 +71,25 @@ namespace CombatSystem
         public override void ThrowWeapon(Vector3 direction)
         {
             // Ensure weapon has a Ridgidbody
-            if (TryGetComponent<Rigidbody>(out var rb))
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb == null)
             {
-                rb = gameObject.AddComponent<Rigidbody>();
+                rb = GetComponent<Rigidbody>();
+
             }
 
-            // Detach from parent (If attached to player), enable object in world
+            // Detach from parent (If attached to player)
             transform.parent = null;
+
+            // Move to player position before throwing
+            transform.position = Camera.main.transform.position + direction * 1.0f;
+
             gameObject.SetActive(true);
 
-            // Apply force for throwing weapon
-            rb.AddForce(throwForceMultiplier * weight * direction.normalized, ForceMode.Impulse);
+            rb.linearVelocity = Vector3.zero; // Reset existing velocity
+            rb.angularVelocity = Vector3.zero;
+            rb.AddForce(throwForceMultiplier * weight * direction.normalized, ForceMode.Impulse); // Apply force for throwing weapon
+
             Debug.Log(weaponName + " thrown with force " + throwForceMultiplier * weight + " in direction " + direction);
 
         }

@@ -12,32 +12,11 @@ namespace CombatSystem
         // Update is called once per frame
         void Update()
         {
-            #region Equip Weapon
-            // Pick up weapon using input E
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                // Find the first available DefaultWeapon
-                Weapon pickup = FindFirstObjectByType<DefaultWeapon>();
-                if (pickup != null)
-                {
-                    currentWeapon = pickup;
-                    currentWeapon.PickUp();
-
-                }
-                else
-                {
-                    Debug.LogWarning("No weapon available to pick up.");
-
-                }
-
-            }
-            #endregion
-
             #region Swing Weapon
             // Input for attacking using left mouse button
             if (Input.GetMouseButtonDown(0) && currentWeapon != null)
             {
-                currentWeapon.Swing();
+                currentWeapon.Swing(transform);
                 Debug.Log("Swing");
 
             }
@@ -62,12 +41,19 @@ namespace CombatSystem
 
         #endregion
 
-        // EquipWeapon is called when walked over
+        // Called when WeaponPickup or WeaponSpawner equips a weapon
         public void EquipWeapon(Weapon weapon)
         {
             currentWeapon = weapon;
             weapon.transform.parent = transform;
             weapon.PickUp(); 
+
+        }
+
+        // Returns true if no weapon is currently equipped
+        public bool NoWeaponEquipped()
+        {
+            return currentWeapon == null;
 
         }
     }
