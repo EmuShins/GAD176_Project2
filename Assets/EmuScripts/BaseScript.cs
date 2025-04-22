@@ -6,6 +6,7 @@ namespace GAD176.Emu.Player
     {
         protected Rigidbody playerRigid;
         public static Transform player;
+        public float yRotation;
 
         void Start()
         {

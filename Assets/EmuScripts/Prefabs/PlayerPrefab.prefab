@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aed460f790b74241bcc6a507e35f8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0
+  yRotation: 0
   isCrouched: 0
   playerCamera: {fileID: 7831092607437857255}
+  controllerSettings: {fileID: 11400000, guid: 3884bd95578f1ee459568dc0223dd90c, type: 2}
 --- !u!1 &1687590835592557643
 GameObject:
   m_ObjectHideFlags: 0
