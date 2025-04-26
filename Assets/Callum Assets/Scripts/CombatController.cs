@@ -5,8 +5,11 @@ using UnityEditor;
 
 namespace CombatSystem
 {
-    /// Handles combat inputs and handles combat actions to equipped weapon
-    /// (Attach to player object)
+    /// <summary>
+    /// Handles attacking, throwing, equipping weapons
+    /// (Attach this script to your Player GameObject)
+    /// (Set Weapon Layer Mask to the layer Weapon, if there is non then create one)
+    /// </summary>
     public class CombatController : MonoBehaviour
     {
         #region Fields
@@ -71,7 +74,6 @@ namespace CombatSystem
             if (Input.GetMouseButtonDown(0) && currentWeapon != null)
             {
                 currentWeapon.Swing(transform);
-                Debug.Log("Swing");
 
             }
 
@@ -86,7 +88,6 @@ namespace CombatSystem
                 currentWeapon.ThrowWeapon(throwDirection);
 
                 currentWeapon = null; // Clear current weapon after throwing
-                Debug.Log("Throw");
 
             }
 

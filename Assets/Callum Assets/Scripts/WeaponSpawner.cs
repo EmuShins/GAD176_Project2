@@ -2,7 +2,11 @@ using UnityEngine;
 
 namespace CombatSystem
 {
-    ///  Spawn and assign a random weapon to player when they collide with spawner
+    /// <summary>
+    /// Spawn and select a random weapon
+    /// (Create an Empty GameObject and attach this script)
+    /// (Attach all weapon GameObject's to Weapon Prefab inside Inspector)
+    /// </summary> 
     public class WeaponSpawner : MonoBehaviour
     {
         [SerializeField] private GameObject[] weaponPrefabs; // Weapon prefabs list to spawn from
@@ -13,6 +17,7 @@ namespace CombatSystem
 
         }
 
+        #region Trigger collider
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
@@ -57,6 +62,8 @@ namespace CombatSystem
 
             }
         }
+
+        #endregion
 
     }
 }

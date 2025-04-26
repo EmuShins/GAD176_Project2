@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74bfc1e674024043b3f72a66e0ed227, type: 3}
   m_Name: Chair
   m_EditorClassIdentifier: 
-  weaponName: char
+  weaponName: Chair
   description: 
   attackPower: 100
   weight: 100

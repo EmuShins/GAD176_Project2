@@ -3,7 +3,12 @@ using UnityEngine;
 
 namespace CombatSystem
 {
-    /// Weapon system that supports swinging and throwing actions
+    /// <summary>
+    /// Implement Swing() and ThrowWeapon() using player's position.
+    /// (Attach this script to a new GameObject to define it as a weapon)
+    /// (Set GameObject's layer as Weapon, if there is non then create one)
+    /// (Make sure to set the GameObject as a prefab afterwards)
+    /// </summary>
     public class DefaultWeapon : Weapon
     {
         [SerializeField] private WeaponData weaponData; // weapon's data asset reference
@@ -11,12 +16,10 @@ namespace CombatSystem
         #region Awake
         void Awake()
         {
-            //
             if (weaponData != null )
             {
                 weaponName = weaponData.weaponName;
                 description = weaponData.description;
-                attackPower = weaponData.attackPower;
                 weight = weaponData.weight;
                 swingRange = weaponData.swingRange;
                 throwForceMultiplier = weaponData.throwForceMultiplier;
@@ -28,45 +31,66 @@ namespace CombatSystem
 
             }
         }
+        
         #endregion
 
-        #region Swinging + Throwing
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, transform.forward * swingRange);
-        }
-
+        #region Swinging
         // Melee swing attack using raycasting to detect hits
         public override void Swing(Transform attacker)
         {
-            Vector3 origin = attacker.position + attacker.forward;
-            Vector3 direction = attacker.forward;
+            // Center the sphere in front of player halfway
+            Vector3 center = attacker.position + attacker.forward * (swingRange * 0.5f);
 
-            // Raycast is used to detect enemy within swing range
-            if (Physics.Raycast(origin, direction, out RaycastHit hit, swingRange))
+            // OverlapSphere finds all colliders within swingRange radius
+            Collider[] hits = Physics.OverlapSphere(center, swingRange);
+
+            bool hitSomething = false;
+            foreach (var col in hits)
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward));
-
-                if (hit.collider != null && hit.collider.CompareTag("Enemy"))
+                if (!col.CompareTag("Enemy"))
                 {
-                    Debug.Log(weaponName + " hits enemy: " + hit.collider.name + " for " + attackPower + " damage.");
-                    // (Call function here to reduce enemy health)
+                    continue;
 
                 }
-                else if(hit.collider != null)
+
+                // Vector line from player to enemy
+                Vector3 toEmemy = col.transform.position - attacker.transform.position;
+
+                // Distance between enemy is to swingRange
+                float dist = toEmemy.magnitude;
+                if (dist > swingRange)
                 {
-                    Debug.Log(weaponName + " hits " + hit.collider.name);
+                    continue;
 
                 }
-            }
-            else
-            {
-                Debug.Log(weaponName + " swings and misses");
+
+                // Destroy enemy if they are within 60 degrees forward
+                float angle = Vector3.Angle(attacker.forward, toEmemy);
+                if (angle > 60f)
+                {
+                    continue;
+
+                }
+
+                // Confirm hit
+                Debug.Log(weaponName + " swung and destroyed enemy");
+                Destroy(col.gameObject);
+                hitSomething = true;
 
             }
+
+            if (!hitSomething)
+            {
+                Debug.Log(weaponName + " swung and hit nothing");
+
+            }
+
+
         }
 
+        #endregion
+
+        #region Throwing
         // Throw weapon using physics using force in a specified direction
         public override void ThrowWeapon(Vector3 direction)
         {
