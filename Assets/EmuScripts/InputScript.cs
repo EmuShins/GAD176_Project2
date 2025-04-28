@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GAD176.Emu.Player
@@ -14,6 +13,7 @@ namespace GAD176.Emu.Player
                 {
                     Debug.Log("Get key inputs has been reached. playerRigid is:" + playerRigid);
                     //WASD movement
+
                     if (!Input.GetKey(KeyCode.LeftShift))
                     {
                         if (Input.GetKey(KeyCode.W))
