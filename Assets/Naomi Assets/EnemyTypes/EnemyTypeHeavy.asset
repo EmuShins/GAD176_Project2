@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5265e866cb98a145b8ada7dd95f65ea, type: 3}
   m_Name: EnemyTypeHeavy
   m_EditorClassIdentifier: 
-  movementSpeed: 6
+  movementSpeed: 1
   scale: 1.2

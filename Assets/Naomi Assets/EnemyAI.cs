@@ -13,8 +13,10 @@ public class EnemyAI : MonoBehaviour
     protected Vector3 lookDirection;
     protected Quaternion targetRotation;
     public List<PatrolScript> pathNode = new List<PatrolScript>();
+    public bool patrolling = true;
+    public Vector3 playerPosition;
 
-    LayerMask layerMask;
+    
 
 
 
@@ -31,7 +33,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
 
-        layerMask = LayerMask.GetMask("Wall", "Character");
+        
         GeneratePathing(pathingNodeNames.node);
 
 
@@ -43,19 +45,30 @@ public class EnemyAI : MonoBehaviour
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
 
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            Debug.Log("Did Hit");
+            if(hit.transform.CompareTag("Player"))
+            {
+                patrolling = false;
+                
+                
+            }
         }
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             Debug.Log("Did not Hit");
         }
-
-        AIMover();
+        if (patrolling == true)
+        {
+            AIMover();
+        }
+        else
+        {
+            PlayerChase();
+        }
+        
     }
 
     private void OnDrawGizmos()
@@ -71,6 +84,7 @@ public class EnemyAI : MonoBehaviour
         //if we are, find next node
         //else, move
 
+       
         
 
         if ((this.gameObject.transform.position - pathNode[currentNodeNumber].transform.position).magnitude >= 1f)
@@ -78,13 +92,26 @@ public class EnemyAI : MonoBehaviour
             lookDirection = (pathNode[currentNodeNumber].transform.position - this.transform.position).normalized;
             targetRotation = Quaternion.LookRotation(lookDirection);
             this.gameObject.transform.position = Vector3.Lerp(transform.position, pathNode[currentNodeNumber].transform.position, Time.deltaTime * movementSpeed);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 1000);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 1000);
         }
         else
         {
             currentNodeNumber++;
             currentNodeNumber %= pathNode.Count;
         }
+    }
+    void PlayerChase()
+    {
+        playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+
+        if ((this.gameObject.transform.position - playerPosition).magnitude >= 1f)
+        {
+            lookDirection = (playerPosition - this.transform.position).normalized;
+            targetRotation = Quaternion.LookRotation(lookDirection);
+            this.gameObject.transform.position = Vector3.Lerp(transform.position, playerPosition, Time.deltaTime * movementSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 1000);
+        }
+        
     }
 
     void GeneratePathing(string setPath)
